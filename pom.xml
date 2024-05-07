@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>py.com.seto</groupId>
 	<artifactId>spring-sso-google</artifactId>
-	<version>1.1.0</version>
+	<version>1.0.0</version>
 	<name>spring-sso-google</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
