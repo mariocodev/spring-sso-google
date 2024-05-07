@@ -1,0 +1,15 @@
+server:
+    port: TU_PUERTO
+
+spring:
+    security:
+        oauth2:
+            client:
+                registration:
+                    google:
+                        clientId: TU_CLIENT_ID
+                        clientSecret: TU_CLIENT_SECRET
+                        scope:
+                            - email
+                            - profile
+                            - openid
