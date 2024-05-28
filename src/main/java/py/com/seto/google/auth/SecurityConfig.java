@@ -18,6 +18,7 @@ public class SecurityConfig {
 		http
 				.csrf().disable()  // Deshabilitar CSRF
 				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/h2-console/**").permitAll()  // Permitir acceso a /h2-console
 						.anyRequest().authenticated()  // Requiere autenticación para cualquier solicitud
 				)
 				.oauth2Login()  // Habilitar el login OAuth2
@@ -31,6 +32,8 @@ public class SecurityConfig {
 						.invalidateHttpSession(true)  // Invalida la sesión HTTP
 						.deleteCookies("JSESSIONID")
 				);
+
+		http.headers().frameOptions().disable(); // h2-console
 
 		return http.build();
 	}

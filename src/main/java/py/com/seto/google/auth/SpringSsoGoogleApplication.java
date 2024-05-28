@@ -17,16 +17,29 @@ import java.security.Principal;
 @RestController
 public class SpringSsoGoogleApplication {
 
+	private final UserService userService;
+
+	public SpringSsoGoogleApplication(UserService userService) {
+		this.userService = userService;
+	}
+
 	@GetMapping
 	public ResponseEntity<String> hello(OAuth2AuthenticationToken token){
 		if (token != null) {
-			// Obtener el nombre, apellido y email del usuario
-			String givenName = token.getPrincipal().getAttribute("given_name");
-			String familyName = token.getPrincipal().getAttribute("family_name");
-			String email = token.getPrincipal().getAttribute("email");
+
+			// Obtener el nombre, apellido, email y fotografía de perfil del usuario
+			UserDTO dto = new UserDTO();
+			dto.setGivenName(token.getPrincipal().getAttribute("given_name"));
+			dto.setFamiyName(token.getPrincipal().getAttribute("family_name"));
+			dto.setEmail(token.getPrincipal().getAttribute("email"));
+			dto.setProfilePicture(token.getPrincipal().getAttribute("picture"));
 
 			// Crear un mensaje con la información del usuario
-			String userInfo = String.format("Hello %s %s (email: %s)", givenName, familyName, email);
+			String userInfo = String.format("Hello %s %s (email: %s)", dto.getGivenName(), dto.getFamiyName(), dto.getEmail());
+
+			userService.findByEmail(dto.getEmail())
+					.orElseGet(() -> userService.saveUser(dto));
+
 			return ResponseEntity.ok(userInfo);
 		}
 
